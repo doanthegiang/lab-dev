@@ -13,6 +13,7 @@ include_once(ROOT . DS . 'inc' .         DS. 'core.php');
 $allowedcontentcontrollers = loadAllContentControllers();
 
 // check write permissions first
+$echo ROOT.DS.'data';
 if(!isFolderWritable(ROOT.DS.'data'))
     exit(json_encode(array('status'=>'err','reason'=>'Data directory not writable')));
 else if(!isFolderWritable(ROOT.DS.'tmp'))

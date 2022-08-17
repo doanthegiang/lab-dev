@@ -57,32 +57,12 @@ _buildConfig() {
 
 ######### main
 
-echo 'Starting Pictshare'
+# echo 'Starting Pictshare'
 
-cd /var/www/
+# cd /var/www/
 
-if [[ ${MAX_UPLOAD_SIZE:=100} =~ ^[0-9]+$ ]]; then
-        _maxUploadSize
-fi
+# if [[ ${MAX_UPLOAD_SIZE:=100} =~ ^[0-9]+$ ]]; then
+#         _maxUploadSize
+# fi
 
 # echo ' [+] Starting php'
-# php-fpm7
-
-# chown -R nginx:nginx /var/www/
-
-# echo ' [+] Creating config'
-
-# touch data/sha1.csv
-# chown nginx:nginx data/sha1.csv
-
-# _buildConfig > inc/config.inc.php
-
-# echo ' [+] Starting nginx'
-
-# mkdir -p /var/log/nginx/pictshare
-# touch /var/log/nginx/pictshare/access.log
-# touch /var/log/nginx/pictshare/error.log
-
-# nginx
-
-# tail -f /var/log/nginx/pictshare/*.log

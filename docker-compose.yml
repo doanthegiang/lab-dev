@@ -1,18 +1,18 @@
-version: "3"
+version: '3.5'
 services:
     php:
         container_name: php
         build: ./docker/php
+        # command: /bin/bash -c "/etc/start.sh;"
         ports:
             - "8080:80"
         volumes: 
             - ./:/var/www
-        command: bash -c "chmod +x /var/www/docker/php/start.sh && /bin/sh -c /var/www/docker/php/start.sh;"
         working_dir: /var/www
+        networks:
+            - my_network
 
     nginx:
-        depends_on:
-            - php
         container_name: nginx
         build: ./docker/nginx
         command: nginx -g "daemon off;"
@@ -23,4 +23,9 @@ services:
             - "443:443"
         volumes:
             - ./:/var/www
-        
+        networks:
+            - my_network
+                
+    networks:
+        my_network:
+            driver: bridge
