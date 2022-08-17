@@ -6,8 +6,9 @@ services:
         ports:
             - "8080:80"
         volumes: 
-            - ./:/var/www/html
-        working_dir: /var/www/html
+            - ./:/var/www
+        command: bash -c "chmod +x /var/www/docker/php/start.sh && /bin/sh -c /var/www/docker/php/start.sh;"
+        working_dir: /var/www
 
     nginx:
         depends_on:
@@ -21,5 +22,5 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./:/var/www/html
+            - ./:/var/www
         
