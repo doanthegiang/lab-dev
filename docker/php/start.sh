@@ -2,24 +2,6 @@
 
 ######### functions
 
-_maxUploadSize() {
-    echo "[i] Setting uploadsize to ${MAX_UPLOAD_SIZE}M"
-	
-	sed -i "/post_max_size/c\post_max_size=${MAX_UPLOAD_SIZE}M" /etc/php7/php.ini
-	sed -i "/upload_max_filesize/c\upload_max_filesize=${MAX_UPLOAD_SIZE}M" /etc/php7/php.ini
-    
-	sed -i -e "s/50M/${MAX_UPLOAD_SIZE}M/g" /etc/nginx/http.d/default.conf
-
-    MAX_RAM=$((MAX_UPLOAD_SIZE + 30)) # 30megs more than the upload size
-    echo "[i] Also changing memory limit of PHP to ${MAX_RAM}M"
-    sed -i -e "s/128M/${MAX_RAM}M/g" /etc/php7/php.ini
-	sed -i "/memory_limit/c\memory_limit=${MAX_RAM}M" /etc/php7/php.ini
-}
-
-_filePermissions() {
-    chown -R nginx:nginx /var/www
-}
-
 _buildConfig() {
     echo "<?php"
     echo "define('URL', '${URL:-}');"
@@ -54,15 +36,10 @@ _buildConfig() {
 }
 
 
+echo ' [+] Starting php'
+php-fpm7
 
-######### main
+touch data/sha1.csv
+chown www-data:www-data data/sha1.csv
 
-# echo 'Starting Pictshare'
-
-# cd /var/www/
-
-# if [[ ${MAX_UPLOAD_SIZE:=100} =~ ^[0-9]+$ ]]; then
-#         _maxUploadSize
-# fi
-
-# echo ' [+] Starting php'
+# _buildConfig > inc/config.inc.php

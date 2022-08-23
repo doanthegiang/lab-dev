@@ -1,30 +1,32 @@
 <?php
 // basic path definitions
+
 define('DS', DIRECTORY_SEPARATOR);
+
 define('ROOT', dirname(__FILE__).DS.'..');
 
-//loading default settings if exist
+// //loading default settings if exist
 if(!file_exists(ROOT.DS.'inc'.DS.'config.inc.php'))
-	exit('Rename /inc/example.config.inc.php to /inc/config.inc.php first!');
+	exit('Rename /inc/config.inc.php to /inc/config.inc.php first!');
 include_once(ROOT.DS.'inc'.DS.'config.inc.php');
 
-//loading core and controllers
+// //loading core and controllers
 include_once(ROOT . DS . 'inc' .         DS. 'core.php');
 $allowedcontentcontrollers = loadAllContentControllers();
 
-// check write permissions first
-$echo ROOT.DS.'data';
+// // check write permissions first
 if(!isFolderWritable(ROOT.DS.'data'))
     exit(json_encode(array('status'=>'err','reason'=>'Data directory not writable')));
 else if(!isFolderWritable(ROOT.DS.'tmp'))
     exit(json_encode(array('status'=>'err','reason'=>'Temp directory not writable')));
 
-// check if client has permission to upload
+// // check if client has permission to upload
 executeUploadPermission();
 
 $hash = sanatizeString(trim($_REQUEST['hash']))?sanatizeString(trim($_REQUEST['hash'])):false;
 
 // check for POST upload
+
 if ($_FILES['file']["error"] == UPLOAD_ERR_OK)
 {
     //get the file type
@@ -39,14 +41,18 @@ if ($_FILES['file']["error"] == UPLOAD_ERR_OK)
     //cross check filetype for controllers
     //
     //image?
-
     foreach($allowedcontentcontrollers as $cc)
     {
+
         if(in_array($type,(new $cc)->getRegisteredExtensions()))
         {
+            // 
+
             $answer = (new $cc())->handleUpload($_FILES['file']['tmp_name'],$hash);
             break;
         }
+      
+
     }
 
 /*

@@ -15,7 +15,9 @@ class ImageController implements ContentController
 
     public function handleUpload($tmpfile,$hash=false)
     {
-        $type = exif_imagetype($tmpfile); //http://www.php.net/manual/en/function.exif-imagetype.php
+        
+        $type = exif_imagetype($tmpfile); //
+        // exit(json_encode(array('status'=>'err','reason'=> $tmpfile)));
         switch($type)
         {
             case 1: $ext = 'gif';break;   //gif
@@ -25,7 +27,7 @@ class ImageController implements ContentController
             case 18: $ext = 'webp';break; // webp
 
             case 2: //we clean up exif data of JPGs so GPS and other data is removed
-                $res = imagecreatefromjpeg($tmpfile);
+                $res = imagecreatefromjpeg($type);
                 imagejpeg($res, $tmpfile, (defined('JPEG_COMPRESSION')?JPEG_COMPRESSION:90));
                 $ext = 'jpg';
             break;
