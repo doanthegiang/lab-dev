@@ -36,8 +36,8 @@ _buildConfig() {
 }
 
 
-echo ' [+] Starting php'
-php-fpm7
+# echo ' [+] Starting php'
+# php-fpm7
 
 touch data/sha1.csv
 chown www-data:www-data data/sha1.csv

@@ -13,8 +13,8 @@ services:
     nginx:
         container_name: nginx
         build: ./docker/nginx
-        command: nginx -g "daemon off;"
-        restart: unless-stopped
+        # command: nginx -g "daemon off;"
+        restart: always
         links: 
             - php
         ports:
@@ -22,8 +22,21 @@ services:
             - "443:443"
         volumes:
             - ./:/var/www
+            - ./nginx/conf/:/etc/nginx/conf.d/:ro
+            - ./certbot/www:/var/www/certbot/:ro
+            - ./certbot/conf/:/etc/nginx/ssl/:ro
         networks:
             - labnet
+    # certbot:
+    #     image: certbot/certbot:latest
+    #     environment:
+    #         - EMAIL=giangcoi901@gmail.com
+    #         - DOMAINS=9b14-27-72-29-113.ap.ngrok.io
+    #         - WWWDOMAIN=9b14-27-72-29-113.ap.ngrok.io
+    #     command: certonly --webroot --webroot-path=/var/www/ --email giangcoi901@gmail.com --agree-tos --no-eff-email -d 9b14-27-72-29-113.ap.ngrok.io
+    #     volumes:
+    #         - ./certbot/www/:/var/www/certbot/:rw
+    #         - ./certbot/conf/:/etc/letsencrypt/:rw
 networks:
     labnet: 
         driver: bridge

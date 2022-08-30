@@ -448,10 +448,10 @@ function sha1Exists($sha1)
 //adds new sha to  the hash list
 function addSha1($hash,$sha1)
 {
-    // if(sha1Exists($sha1)) return;
-    // $fp = fopen(ROOT.DS.'data'.DS.'sha1.csv','a');
-    // fwrite($fp,"$sha1;$hash\n");
-    // fclose($fp);
+    if(sha1Exists($sha1)) return;
+    $fp = fopen(ROOT.DS.'data'.DS.'sha1.csv','a');
+    fwrite($fp,"$sha1;$hash\n");
+    fclose($fp);
     return true;
 }
 
