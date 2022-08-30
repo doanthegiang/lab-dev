@@ -21,12 +21,21 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./:/var/www
-            - ./nginx/conf/:/etc/nginx/conf.d/:ro
-            - ./certbot/www:/var/www/certbot/:ro
-            - ./certbot/conf/:/etc/nginx/ssl/:ro
+            - ./:/var/www:ro
+            # - ./nginx/conf/:/etc/nginx/conf.d/:ro
+            # - ./certbot/www:/var/www/certbot/:ro
+            # - ./certbot/conf/:/etc/nginx/ssl/:ro
         networks:
             - labnet
+    cron:
+        container_name: cron
+        build: ./docker/cron
+        # environment:
+        #     COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./:/var/www:ro
+        restart: unless-stopped
     # certbot:
     #     image: certbot/certbot:latest
     #     environment:
