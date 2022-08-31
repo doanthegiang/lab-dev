@@ -21,7 +21,7 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./:/var/www:ro
+            - ./:/var/www:rw
             # - ./nginx/conf/:/etc/nginx/conf.d/:ro
             # - ./certbot/www:/var/www/certbot/:ro
             # - ./certbot/conf/:/etc/nginx/ssl/:ro
@@ -34,7 +34,7 @@ services:
         #     COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-            - ./:/var/www:ro
+            - ./:/var/www:rw
         restart: unless-stopped
     # certbot:
     #     image: certbot/certbot:latest
