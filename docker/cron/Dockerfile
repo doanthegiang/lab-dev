@@ -3,12 +3,14 @@ FROM alpine:3.16
 RUN apk update && \
     apk add --no-cache openssl docker-cli docker-cli-compose
 
-COPY renew_certs.sh /etc/periodic/daily/renew_certs
+COPY renew_certs /bin/renew_certs
+COPY root /var/spool/cron/crontabs/root
 
-RUN chmod +x /etc/periodic/daily/renew_certs
+RUN chmod +x /bin/renew_certs
 
-WORKDIR /etc/periodic/daily
+CMD crond -l 2 -f
+# WORKDIR /usr
 
-RUN crontab -l | { cat; echo "*/30 *  *  *  *  *  /etc/periodic/daily"; } | crontab -
+# RUN crontab -l | { cat; echo "*  *  *  *  *  * /usr/renew_certs.sh"; } | crontab -
 
-CMD ["crond", "-l 2", "-f"]
+# CMD ["crond", "-f", "-d", "8"]
