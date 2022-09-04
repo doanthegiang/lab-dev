@@ -1,4 +1,4 @@
-* * * * * /bin/renew_certs
+* */2 * * * /bin/renew_certs
 
 # * min (0-59)
 # * hour (0-23)

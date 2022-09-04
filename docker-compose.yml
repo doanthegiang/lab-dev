@@ -6,8 +6,18 @@ services:
         restart: unless-stopped
         working_dir: /var/www
         volumes:
-        - ./:/var/www
-        - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - ./:/var/www
+            - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+        networks:
+            - labnet
+    php_1:
+        container_name: php_1
+        build: ./docker/php
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
         networks:
             - labnet
     nginx:
@@ -16,7 +26,8 @@ services:
         command: nginx -g "daemon off;"
         restart: always
         links: 
-            - php
+            # - php
+            - php_1
         ports:
             - "80:80"
             - "443:443"

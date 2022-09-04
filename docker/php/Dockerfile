@@ -66,7 +66,7 @@ USER www-data
 
 
 # 10 Expose port 9000 and start php-fpm server
-EXPOSE 9000
+# EXPOSE 9000
 CMD ["php-fpm"]
 
 
