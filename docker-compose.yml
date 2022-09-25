@@ -1,19 +1,9 @@
 version: '3'
 services:
     php:
-        container_name: php
+        # container_name: php
         build: ./docker/php
-        restart: unless-stopped
-        working_dir: /var/www
-        volumes:
-            - ./:/var/www
-            - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-        networks:
-            - labnet
-    php_1:
-        container_name: php_1
-        build: ./docker/php
-        restart: unless-stopped
+        # restart: unless-stopped
         working_dir: /var/www
         volumes:
             - ./:/var/www
@@ -26,37 +16,14 @@ services:
         command: nginx -g "daemon off;"
         restart: always
         links: 
-            # - php
-            - php_1
+            - php
         ports:
             - "80:80"
-            - "443:443"
+            # - "443:443"
         volumes:
             - ./:/var/www:rw
-            # - ./nginx/conf/:/etc/nginx/conf.d/:ro
-            # - ./certbot/www:/var/www/certbot/:ro
-            # - ./certbot/conf/:/etc/nginx/ssl/:ro
         networks:
             - labnet
-    cron:
-        container_name: cron
-        build: ./docker/cron
-        # environment:
-        #     COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - ./:/var/www:rw
-        restart: unless-stopped
-    # certbot:
-    #     image: certbot/certbot:latest
-    #     environment:
-    #         - EMAIL=giangcoi901@gmail.com
-    #         - DOMAINS=9b14-27-72-29-113.ap.ngrok.io
-    #         - WWWDOMAIN=9b14-27-72-29-113.ap.ngrok.io
-    #     command: certonly --webroot --webroot-path=/var/www/ --email giangcoi901@gmail.com --agree-tos --no-eff-email -d 9b14-27-72-29-113.ap.ngrok.io
-    #     volumes:
-    #         - ./certbot/www/:/var/www/certbot/:rw
-    #         - ./certbot/conf/:/etc/letsencrypt/:rw
 networks:
     labnet: 
         driver: bridge
